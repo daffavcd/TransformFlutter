@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flip_panel/flip_panel.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   Offset _offset = Offset.zero; // changed
+  final digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   void _incrementCounter() {
     setState(() {
@@ -63,6 +65,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            FlipPanel<int>.stream(
+              itemStream: Stream.periodic(
+                  Duration(milliseconds: 1000), (count) => count % 10),
+              itemBuilder: (context, value) => Container(
+                color: Colors.black,
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                child: Text(
+                  '$value',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 50.0,
+                      color: Colors.white),
+                ),
+              ),
+              initValue: 0,
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
